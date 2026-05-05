@@ -2,6 +2,13 @@ import streamlit as st
 import urllib.parse
 from datetime import date
 
+st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
+
+st.title("🚴 Gerador de Pedal")
+
+# =========================
+# LISTA DE EMOJIS (ANTES DE TUDO!)
+# =========================
 numeros_emoji = [
     "1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣",
     "🔟","1️⃣1️⃣","1️⃣2️⃣","1️⃣3️⃣","1️⃣4️⃣","1️⃣5️⃣",
@@ -10,12 +17,8 @@ numeros_emoji = [
     "2️⃣6️⃣","2️⃣7️⃣","2️⃣8️⃣","2️⃣9️⃣","3️⃣0️⃣"
 ]
 
-st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
-
-st.title("🚴 Gerador de Pedal")
-
 # =========================
-# DROPDOWNS
+# INPUTS
 # =========================
 grupo = st.selectbox("Grupo", [
     "Gigantes do Pedal",
@@ -29,7 +32,6 @@ tipo_pedal = st.selectbox("Tipo de pedal", [
     "Giro Leve",
     "Giro Moderado",
     "Giro Forte",
-    "Longão",
     "Pedal de Sábado",
     "Pedal de Domingo",
     "Pedal do Feriado"
@@ -39,23 +41,21 @@ destino = st.text_input("Destino / Rota")
 local = st.text_input("Local de saída")
 horario = st.text_input("Horário", "06:00")
 
-vagas = st.selectbox("Número de vagas", list(range(1, 31)))
-
 data = st.date_input("Data do pedal", value=date.today())
 data_formatada = data.strftime("%d/%m/%Y")
 
-# =========================
-# GERAR LISTA DE VAGAS
-# =========================
-lista_vagas = "\n".join([
-    f"{numeros_emoji[i]} _____________"
-    for i in range(vagas)
-])
+vagas = st.selectbox("Número de vagas", list(range(1, 31)))
 
 # =========================
 # GERAR TEXTO
 # =========================
-if st.button("Gerar lista do pedal"):
+if st.button("Gerar texto"):
+
+    # gera lista de vagas com segurança
+    lista_vagas = "\n".join([
+        f"{numeros_emoji[i]} _____________"
+        for i in range(vagas)
+    ])
 
     texto = f"""🚴‍♂️ {grupo} 🚴‍♂️
 
@@ -68,18 +68,13 @@ if st.button("Gerar lista do pedal"):
 📌 {local}
 
 Confirmados:
-lista_vagas = "\n".join([f"{numeros_emoji[i]} _____________" for i in range(vagas)])
+{lista_vagas}
 """
 
     st.text_area("Texto pronto", texto, height=300)
 
     # =========================
-    # BOTÃO COPIAR
-    # =========================
-    st.code(texto, language="")
-
-    # =========================
-    # BOTÃO WHATSAPP
+    # LINK WHATSAPP
     # =========================
     mensagem = urllib.parse.quote(texto)
     link_whatsapp = f"https://wa.me/?text={mensagem}"
