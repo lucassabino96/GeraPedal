@@ -2,6 +2,7 @@ import streamlit as st
 import urllib.parse
 from datetime import date
 import json
+from st_copy_to_clipboard import st_copy_to_clipboard
 
 st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
 
@@ -75,19 +76,7 @@ Confirmados:
     texto_safe = json.dumps(texto)
     
     st.markdown(f"""
-    <button onclick='navigator.clipboard.writeText({texto_safe})' 
-    style="
-        background-color:#4CAF50;
-        color:white;
-        padding:10px;
-        border:none;
-        border-radius:8px;
-        font-size:16px;
-        cursor:pointer;
-        margin-top:10px;">
-        📋 Copiar texto
-    </button>
-    """, unsafe_allow_html=True)
+    st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
     # LINK WHATSAPP
