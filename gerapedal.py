@@ -102,7 +102,7 @@ Confirmados:
 {lista_vagas}
 """
     
-    texto_safe = json.dumps(texto)
+texto_safe = json.dumps(texto)
     st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
