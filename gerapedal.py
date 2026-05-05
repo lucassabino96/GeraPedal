@@ -39,7 +39,7 @@ destino = st.text_input("Destino / Rota")
 local = st.text_input("Local de saída")
 horario = st.text_input("Horário", "06:00")
 
-vagas = st.selectbox("Número de vagas", list(range(1, 20)))
+vagas = st.selectbox("Número de vagas", list(range(1, len(numeros_emoji) + 1)))
 
 data = st.date_input("Data do pedal", value=date.today())
 data_formatada = data.strftime("%d/%m/%Y")
