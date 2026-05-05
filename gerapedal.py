@@ -79,7 +79,7 @@ Confirmados:
     # =========================
     # LINK WHATSAPP
     # =========================
-    mensagem = urllib.parse.quote(texto)
+    mensagem = urllib.parse.quote_plus(texto.encode('utf-8'))
     link_whatsapp = f"https://wa.me/?text={mensagem}"
 
     st.markdown(f"""
