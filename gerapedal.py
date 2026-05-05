@@ -71,7 +71,7 @@ tipo_pedal = st.selectbox("Tipo de pedal", [
 
 destino = st.text_input("Destino / Rota")
 local = st.text_input("Local de saída")
-horario = st.text_input("Horário", "06:00")
+horario = st.text_input("Horário", "19:00")
 
 data = st.date_input("Data do pedal", value=date.today())
 data_formatada = data.strftime("%d/%m/%Y")
@@ -85,7 +85,7 @@ if st.button("Gerar texto"):
 
     # gera lista de vagas
     lista_vagas = "\n".join([
-        f"{numeros[i]} - "
+        f"{numeros[i]} "
         for i in range(vagas)
     ])
 
