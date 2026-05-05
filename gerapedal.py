@@ -85,7 +85,7 @@ if st.button("Gerar texto"):
 
     # gera lista de vagas
     lista_vagas = "\n".join([
-        f"{numeros[i]} _____________"
+        f"{numeros[i]} - "
         for i in range(vagas)
     ])
 
