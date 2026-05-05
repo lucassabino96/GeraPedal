@@ -1,32 +1,87 @@
 import streamlit as st
+import urllib.parse
+from datetime import date
 
-st.set_page_config(page_title="Pedal Generator", page_icon="🚴")
+st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
 
 st.title("🚴 Gerador de Pedal")
 
-grupo = st.selectbox("Grupo", ["Gigantes do Pedal", "Domingão", "Pelotão Raiz"])
-destino = st.text_input("Destino da rota")
-horario = st.text_input("Horário de saída", "06:00")
+# =========================
+# DROPDOWNS
+# =========================
+grupo = st.selectbox("Grupo", [
+    "Gigantes do Pedal",
+    "Alto Giro",
+    "Tribo da Bike",
+    "Pedal dos Amigos",
+    "CP MTB"
+])
+
+tipo_pedal = st.selectbox("Tipo de pedal", [
+    "Giro Leve",
+    "Giro Moderado",
+    "Giro Forte",
+    "Pedal de Sábado",
+    "Pedal de Domingo",
+    "Pedal do Feriado"
+])
+
+destino = st.text_input("Destino / Rota")
 local = st.text_input("Local de saída")
-vagas = st.number_input("Número de vagas", min_value=1, max_value=50, value=10)
+horario = st.text_input("Horário", "06:00")
 
-nomes = st.text_area("Lista de confirmados (um por linha)")
+vagas = st.selectbox("Número de vagas", list(range(1, 31)))
 
+data_hoje = date.today().strftime("%d/%m/%Y")
+
+# =========================
+# GERAR LISTA DE VAGAS
+# =========================
+lista_vagas = "\n".join([f"{i+1}️⃣ " for i in range(vagas)])
+
+# =========================
+# GERAR TEXTO
+# =========================
 if st.button("Gerar texto"):
-    lista = nomes.split("\n")
-    lista_formatada = "\n".join([f"{i+1}️⃣ {nome}" for i, nome in enumerate(lista) if nome.strip() != ""])
 
     texto = f"""🚴‍♂️ {grupo} 🚴‍♂️
 
+🔥 {tipo_pedal}
+
 📍 {destino}
 
+📅 {data_hoje}
 ⏰ {horario}
 📌 {local}
 
-Vagas: {vagas}
-
 Confirmados:
-{lista_formatada}
+{lista_vagas}
 """
 
-    st.text_area("Resultado", texto, height=300)
+    st.text_area("Texto pronto", texto, height=300)
+
+    # =========================
+    # BOTÃO COPIAR
+    # =========================
+    st.code(texto, language="")
+
+    # =========================
+    # BOTÃO WHATSAPP
+    # =========================
+    mensagem = urllib.parse.quote(texto)
+    link_whatsapp = f"https://wa.me/?text={mensagem}"
+
+    st.markdown(f"""
+    <a href="{link_whatsapp}" target="_blank">
+        <button style="
+            background-color:#25D366;
+            color:white;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            cursor:pointer;">
+            📲 Enviar para WhatsApp
+        </button>
+    </a>
+    """, unsafe_allow_html=True)
