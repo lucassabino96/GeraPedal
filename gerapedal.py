@@ -4,6 +4,17 @@ from datetime import date
 import json
 from st_copy_to_clipboard import st_copy_to_clipboard
 
+# Detectar se é mobile
+def is_mobile():
+    try:
+        user_agent = st.context.headers["user-agent"]
+        mobile_keywords = ["Android", "iPhone", "iPad", "Mobile"]
+        return any(keyword in user_agent for keyword in mobile_keywords)
+    except:
+        return False
+
+mobile = is_mobile()
+
 st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
 
 st.title("🚴 Gerador de Pedal")
@@ -11,7 +22,8 @@ st.title("🚴 Gerador de Pedal")
 # =========================
 # LISTA DE EMOJIS (ANTES DE TUDO!)
 # =========================
-numeros_emoji = [
+# Emojis completos (mobile)
+numeros_emoji_mobile = [
     "1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣",
     "🔟","1️⃣1️⃣","1️⃣2️⃣","1️⃣3️⃣","1️⃣4️⃣","1️⃣5️⃣",
     "1️⃣6️⃣","1️⃣7️⃣","1️⃣8️⃣","1️⃣9️⃣","2️⃣0️⃣",
@@ -19,6 +31,24 @@ numeros_emoji = [
     "2️⃣6️⃣","2️⃣7️⃣","2️⃣8️⃣","2️⃣9️⃣","3️⃣0️⃣"
 ]
 
+# Versão segura (desktop)
+numeros_emoji_desktop = [f"{i+1}." for i in range(30)]
+
+if mobile:
+    bike = "🚴‍♂️"
+    fogo = "🔥"
+    calendario = "📅"
+    relogio = "⏰"
+    local_icon = "📌"
+    numeros = numeros_emoji_mobile
+else:
+    bike = "🚴"
+    fogo = ""
+    calendario = "Data:"
+    relogio = "Hora:"
+    local_icon = "Local:"
+    numeros = numeros_emoji_desktop
+    
 # =========================
 # INPUTS
 # =========================
@@ -55,19 +85,18 @@ if st.button("Gerar texto"):
 
     # gera lista de vagas com segurança
     lista_vagas = "\n".join([
-        f"{numeros_emoji[i]} - "
+        f"{numeros[i]} _____________"
         for i in range(vagas)
     ])
+texto = f"""{bike} {grupo} {bike}
 
-    texto = f"""🚴‍♂️ {grupo} 🚴‍♂️
-
-🔥 {tipo_pedal}
+{fogo} {tipo_pedal}
 
 📍 {destino}
 
-📅 {data_formatada}
-⏰ {horario}
-📌 {local}
+{calendario} {data_formatada}
+{relogio} {horario}
+{local_icon} {local}
 
 Confirmados:
 {lista_vagas}
@@ -79,9 +108,11 @@ Confirmados:
     # =========================
     # LINK WHATSAPP
     # =========================
-    mensagem = urllib.parse.quote_plus(texto.encode('utf-8'))
-    link_whatsapp = f"https://wa.me/?text={mensagem}"
-
+    mensagem = urllib.parse.quote(texto, safe='')
+    link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
+    if not mobile:
+        st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
+    
     st.markdown(f"""
     <a href="{link_whatsapp}" target="_blank">
         <button style="
