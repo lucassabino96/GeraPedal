@@ -21,6 +21,7 @@ tipo_pedal = st.selectbox("Tipo de pedal", [
     "Giro Leve",
     "Giro Moderado",
     "Giro Forte",
+    "Longão",
     "Pedal de Sábado",
     "Pedal de Domingo",
     "Pedal do Feriado"
