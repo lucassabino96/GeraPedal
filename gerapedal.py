@@ -53,7 +53,7 @@ if st.button("Gerar texto"):
 
     # gera lista de vagas com segurança
     lista_vagas = "\n".join([
-        f"{numeros_emoji[i]} _____________"
+        f"{numeros_emoji[i]} - "
         for i in range(vagas)
     ])
 
@@ -72,6 +72,22 @@ Confirmados:
 """
 
     st.text_area("Texto pronto", texto, height=300)
+
+    # BOTÃO COPIAR
+    st.markdown(f"""
+    <button onclick="navigator.clipboard.writeText(`{texto}`)" 
+    style="
+        background-color:#4CAF50;
+        color:white;
+        padding:10px;
+        border:none;
+        border-radius:8px;
+        font-size:16px;
+        cursor:pointer;
+        margin-top:10px;">
+        📋 Copiar texto
+    </button>
+    """, unsafe_allow_html=True)
 
     # =========================
     # LINK WHATSAPP
