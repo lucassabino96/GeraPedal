@@ -84,10 +84,10 @@ vagas = st.selectbox("Número de vagas", list(range(1, 31)))
 if st.button("Gerar texto"):
 
     # gera lista de vagas com segurança
-    lista_vagas = "\n".join([
-        f"{numeros[i]} _____________"
-        for i in range(vagas)
-    ])
+lista_vagas = "\n".join([
+    f"{numeros[i]} _____________"
+    for i in range(vagas)
+])
 texto = f"""{bike} {grupo} {bike}
 
 {fogo} {tipo_pedal}
