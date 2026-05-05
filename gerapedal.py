@@ -103,7 +103,7 @@ Confirmados:
 """
     
 texto_safe = json.dumps(texto)
-    st_copy_to_clipboard(texto, "📋 Copiar texto")
+st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
     # LINK WHATSAPP
