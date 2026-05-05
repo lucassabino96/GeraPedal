@@ -74,8 +74,6 @@ Confirmados:
 """
     
     texto_safe = json.dumps(texto)
-    
-    st.markdown(f"""
     st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
