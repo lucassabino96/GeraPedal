@@ -83,12 +83,13 @@ vagas = st.selectbox("Número de vagas", list(range(1, 31)))
 # =========================
 if st.button("Gerar texto"):
 
-    # gera lista de vagas com segurança
-lista_vagas = "\n".join([
-    f"{numeros[i]} _____________"
-    for i in range(vagas)
-])
-texto = f"""{bike} {grupo} {bike}
+    # gera lista de vagas
+    lista_vagas = "\n".join([
+        f"{numeros[i]} _____________"
+        for i in range(vagas)
+    ])
+
+    texto = f"""{bike} {grupo} {bike}
 
 {fogo} {tipo_pedal}
 
@@ -101,29 +102,31 @@ texto = f"""{bike} {grupo} {bike}
 Confirmados:
 {lista_vagas}
 """
-    
-texto_safe = json.dumps(texto)
-st_copy_to_clipboard(texto, "📋 Copiar texto")
+
+    st.text_area("Texto pronto", texto, height=300)
+
+    st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
     # LINK WHATSAPP
     # =========================
-mensagem = urllib.parse.quote(texto, safe='')
-link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
-if not mobile:
-    st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
-    
-st.markdown(f"""
-    <a href="{link_whatsapp}" target="_blank">
-        <button style="
-            background-color:#25D366;
-            color:white;
-            padding:10px;
-            border:none;
-            border-radius:8px;
-            font-size:16px;
-            cursor:pointer;">
-            📲 Enviar para WhatsApp
-        </button>
-    </a>
+    mensagem = urllib.parse.quote(texto, safe='')
+    link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
+
+    if not mobile:
+        st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
+
+    st.markdown(f"""
+        <a href="{link_whatsapp}" target="_blank">
+            <button style="
+                background-color:#25D366;
+                color:white;
+                padding:10px;
+                border:none;
+                border-radius:8px;
+                font-size:16px;
+                cursor:pointer;">
+                📲 Enviar para WhatsApp
+            </button>
+        </a>
     """, unsafe_allow_html=True)
