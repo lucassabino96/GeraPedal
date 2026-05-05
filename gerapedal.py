@@ -1,6 +1,7 @@
 import streamlit as st
 import urllib.parse
 from datetime import date
+import json
 
 st.set_page_config(page_title="Gera Pedal", page_icon="🚴")
 
@@ -70,12 +71,11 @@ if st.button("Gerar texto"):
 Confirmados:
 {lista_vagas}
 """
-
-    st.text_area("Texto pronto", texto, height=300)
-
-    # BOTÃO COPIAR
+    
+    texto_safe = json.dumps(texto)
+    
     st.markdown(f"""
-    <button onclick="navigator.clipboard.writeText(`{texto}`)" 
+    <button onclick='navigator.clipboard.writeText({texto_safe})' 
     style="
         background-color:#4CAF50;
         color:white;
