@@ -102,18 +102,18 @@ Confirmados:
 {lista_vagas}
 """
     
-    texto_safe = json.dumps(texto)
-    st_copy_to_clipboard(texto, "📋 Copiar texto")
+texto_safe = json.dumps(texto)
+st_copy_to_clipboard(texto, "📋 Copiar texto")
 
     # =========================
     # LINK WHATSAPP
     # =========================
-    mensagem = urllib.parse.quote(texto, safe='')
-    link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
+mensagem = urllib.parse.quote(texto, safe='')
+link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
 if not mobile:
-    st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
+st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
     
-    st.markdown(f"""
+st.markdown(f"""
     <a href="{link_whatsapp}" target="_blank">
         <button style="
             background-color:#25D366;
