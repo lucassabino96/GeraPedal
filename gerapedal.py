@@ -111,7 +111,7 @@ st_copy_to_clipboard(texto, "📋 Copiar texto")
 mensagem = urllib.parse.quote(texto, safe='')
 link_whatsapp = f"https://api.whatsapp.com/send?text={mensagem}"
 if not mobile:
-st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
+    st.info("💡 No computador, o botão WhatsApp usa uma versão simplificada para evitar erro de emojis. Para versão completa, use 'Copiar texto'.")
     
 st.markdown(f"""
     <a href="{link_whatsapp}" target="_blank">
