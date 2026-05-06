@@ -143,7 +143,7 @@ elif pagina == "Ferramenta de Nutrição":
     
     c1, c2, c3 = st.columns(3)
     qtd_caramanholas = math.ceil(agua_ml_total / 500)
-    c1.metric("Hidratação (# de caramanholas de 500ML", f"{qtd_caramanholas} un")
+    c1.metric("Hidratação (# de caramanholas de 500ML)", f"{qtd_caramanholas} un")
     c2.metric("Géis de Carbo (20G de carboidrato)", f"{max(1, qtd_geis)} un")
     c3.metric("Bananas/Bala de Goma (25G de carboidrato)", f"{max(1, qtd_bananas)} un")
     
