@@ -2,6 +2,7 @@ import streamlit as st
 import urllib.parse
 from datetime import date
 from st_copy_to_clipboard import st_copy_to_clipboard
+import math
 
 # Configuração da página (deve ser a primeira instrução)
 st.set_page_config(page_title="Portal do Ciclista", page_icon="🚴", layout="wide")
@@ -141,9 +142,10 @@ elif pagina == "Ferramenta de Nutrição":
     st.success(f"Para um pedal de {duracao}h, você precisará de aproximadamente **{int(gramas_carbo_total)}g de Carboidratos**.")
     
     c1, c2, c3 = st.columns(3)
-    c1.metric("Água/Isotônico", f"{agua_ml_total/1000:.1f} Litros")
-    c2.metric("Géis de Carbo", f"{max(1, qtd_geis)} un")
-    c3.metric("Bananas", f"{max(1, qtd_bananas)} un")
+    qtd_caramanholas = math.ceil(agua_ml_total / 500)
+    c1.metric("Hidratação", f"{qtd_caramanholas} un. (Caramanholas)")
+    c2.metric("Géis de Carbo (20G de carboidrato)", f"{max(1, qtd_geis)} un")
+    c3.metric("Bananas/Bala de Goma (25G de carboidrato)", f"{max(1, qtd_bananas)} un")
     
     st.warning(f"**Sugestão de Consumo:** Coma algo a cada 40 minutos. Não espere sentir sede ou fome.")
     
