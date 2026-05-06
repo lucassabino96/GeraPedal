@@ -143,11 +143,11 @@ elif pagina == "Ferramenta de Nutrição":
     
     c1, c2, c3 = st.columns(3)
     qtd_caramanholas = math.ceil(agua_ml_total / 500)
-    c1.metric("Hidratação", f"{qtd_caramanholas} un. (Caramanholas)")
+    c1.metric("Hidratação (# de caramanholas de 500ML", f"{qtd_caramanholas} un")
     c2.metric("Géis de Carbo (20G de carboidrato)", f"{max(1, qtd_geis)} un")
     c3.metric("Bananas/Bala de Goma (25G de carboidrato)", f"{max(1, qtd_bananas)} un")
     
-    st.warning(f"**Sugestão de Consumo:** Coma algo a cada 40 minutos. Não espere sentir sede ou fome.")
+    st.warning(f"**Sugestão de Consumo:** Coma algo a cada 45 minutos. Não espere sentir sede ou fome.")
     
     with st.expander("🔬 Detalhes do Cálculo"):
         st.write(f"- **Hidratação:** Baseada em uma perda média de 600-800ml/h.")
