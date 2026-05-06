@@ -111,45 +111,53 @@ elif pagina == "Calculadora de Zonas FC":
 # =========================
 # PÁGINA 3: FERRAMENTA DE NUTRIÇÃO
 # =========================
+# --- Nova Lógica de Nutrição Refinada ---
+
 elif pagina == "Ferramenta de Nutrição":
-    st.title("🍌 Planejador de Nutrição")
+    st.title("🍌 Planejador de Nutrição de Precisão")
     
     colA, colB = st.columns(2)
     with colA:
         peso = st.number_input("Seu peso (kg):", 40, 150, 75)
-        tipo_bike = st.radio("Modalidade:", ["MTB (Mais esforço/Altimetria)", "Road (Ritmo constante)"])
+        tipo_bike = st.radio("Modalidade:", ["Road (Asfalto/Ritmo)", "MTB (Trilha/Altimetria)"])
     with colB:
         duracao = st.selectbox("Duração do Pedal (horas):", list(range(1, 11)))
-        intensidade = st.select_slider("Intensidade esperada:", ["Leve", "Moderada", "Intensa"])
+        # Substituímos a intensidade simples por algo que impacta o metabolismo
+        clima = st.select_slider("Temperatura Ambiente:", ["Frio", "Agradável", "Muito Quente"])
 
-    # Lógica de Cálculo (Fórmulas fisiológicas)
-    # Recomendação base: 30g a 90g de carbo/hora dependendo do peso e intensidade
-    carbo_base = 0.8 if tipo_bike == "Road" else 1.0
-    if intensidade == "Leve": carbo_base *= 0.6
-    elif intensidade == "Intensa": carbo_base *= 1.2
+    # --- CÁLCULOS TÉCNICOS ---
     
-    gramas_carbo_total = (peso * carbo_base) * duracao
-    agua_ml_total = duracao * 600 if tipo_bike == "Road" else duracao * 800
+    # 1. Taxa de Oxidação de Carboidratos (g/kg/hora)
+    # Road costuma ser mais constante (Z2/Z3), MTB tem picos de potência (Z4/Z5)
+    taxa_carbo = 0.7 if "Road" in tipo_bike else 0.9
+    
+    # 2. Ajuste por Temperatura (Calor aumenta o consumo de glicogênio e água)
+    ajuste_clima_agua = 1.0
+    if clima == "Frio": ajuste_clima_agua = 0.8
+    elif clima == "Muito Quente": ajuste_clima_agua = 1.3
+    
+    # 3. Resultado Final
+    gramas_carbo_total = (peso * taxa_carbo) * duracao
+    
+    # Hidratação: Road (600ml base) | MTB (850ml base) -> Ajustado pelo clima
+    base_hidrica = 600 if "Road" in tipo_bike else 850
+    agua_ml_total = (base_hidrica * duracao) * ajuste_clima_agua
+    
+    # Conversão para Caramanholas (500ml)
+    qtd_caramanholas = agua_ml_total / 500
 
-    st.subheader("📋 Recomendação de Suprimentos")
+    # --- EXIBIÇÃO ---
+    st.subheader("📋 Plano de Suprimentos")
     
-    # Divisão sugerida de alimentos
-    # Cada Gel = 20g carbo | 1 Banana = 25g carbo | 5 Balas de Goma = 20g carbo
-    qtd_geis = int((gramas_carbo_total * 0.4) / 20)
-    qtd_bananas = int((gramas_carbo_total * 0.3) / 25)
-    qtd_balas = int((gramas_carbo_total * 0.3) / 4) # 4g por bala
+    # Itens de consumo
+    qtd_geis = int((gramas_carbo_total * 0.5) / 20) # 50% em Gel
+    qtd_bananas = int((gramas_carbo_total * 0.5) / 25) # 50% em Alimento Sólido
+    
+    st.success(f"Estimativa de consumo total: **{int(gramas_carbo_total)}g de Carboidratos**")
 
-    st.success(f"Para um pedal de {duracao}h, você precisará de aproximadamente **{int(gramas_carbo_total)}g de Carboidratos**.")
-    
     c1, c2, c3 = st.columns(3)
-    qtd_caramanholas = math.ceil(agua_ml_total / 500)
-    c1.metric("Hidratação (# de caramanholas de 500ML)", f"{qtd_caramanholas} un")
-    c2.metric("Géis de Carbo (20G de carboidrato)", f"{max(1, qtd_geis)} un")
-    c3.metric("Bananas/Bala de Goma (25G de carboidrato)", f"{max(1, qtd_bananas)} un")
-    
-    st.warning(f"**Sugestão de Consumo:** Coma algo a cada 45 minutos. Não espere sentir sede ou fome.")
-    
-    with st.expander("🔬 Detalhes do Cálculo"):
-        st.write(f"- **Hidratação:** Baseada em uma perda média de 600-800ml/h.")
-        st.write(f"- **Carboidratos:** Calculado em {carbo_base*peso:.1f}g/hora para seu perfil.")
-        st.write("- **Dica:** Em pedais de MTB, a altimetria exige mais glicogênio; priorize o Gel em subidas longas.")
+    c1.metric("Hidratação", f"{qtd_caramanholas:.1f} un.", help="Caramanholas de 500ml")
+    c2.metric("Géis de Carbo", f"{max(1, qtd_geis)} un.", help="Géis de 20g cada")
+    c3.metric("Bananas", f"{max(1, qtd_bananas)} un.", help="Ou 5 balas de goma por cada banana")
+
+    st.info(f"💡 **Dica de Pro:** No **{tipo_bike.split()[0]}**, tente consumir 1/3 da hidratação com eletrólitos (sais) para evitar cãibras, especialmente no clima **{clima.lower()}**.")
