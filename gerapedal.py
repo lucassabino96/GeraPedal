@@ -52,7 +52,7 @@ if pagina == "Gerador de Pedal":
         local = st.text_input("Local de saída")
         horario = st.text_input("Horário", "19:00")
         data = st.date_input("Data", value=date.today())
-        vagas = st.selectbox("Vagas", list(range(1, 31)))
+        vagas = st.selectbox("Vagas", list(range(1, 31)), index=9)
 
     if st.button("Gerar Texto"):
         data_f = data.strftime("%d/%m/%Y")
