@@ -122,7 +122,7 @@ elif pagina == "Ferramenta de Nutrição":
         tipo_bike = st.radio("Modalidade:", ["Road (Asfalto/Ritmo)", "MTB (Trilha/Altimetria)"])
     with colB:
         duracao = st.selectbox("Duração do Pedal (horas):", list(range(1, 11)))
-        clima = st.select_slider("Temperatura Ambiente:", ["Frio", "Agradável", "Muito Quente"])
+        clima = st.select_slider("temperatura ambiente:", options=["frio", "agradável", "muito quente"], value="agradável")
 
     # --- CÁLCULOS CONSERVADORES (Baseados em dados reais do ciclista) ---
     
